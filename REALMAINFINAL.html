@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Stop Vaping Schools - Awareness & Smoke Detection Product</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;1,700&display=swap');
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0a0a0a;
+      color: #ccc;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: saturate(180%) blur(20px);
+      background-color: rgba(7,13,23,0.95);
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      transition: background-color 0.4s ease;
+    }
+    header:hover {
+      background-color: rgba(10,20,36,0.98);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: #2a7fff;
+      letter-spacing: 2px;
+      cursor: default;
+      user-select: none;
+      text-shadow: 0 0 5px #1a5ecc;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 3.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #ddd;
+    }
+    nav ul li a {
+      color: #ddd;
+      position: relative;
+      padding-bottom: 3px;
+      transition: color 0.3s ease;
+    }
+    nav ul li a.active,
+    nav ul li a:hover {
+      color: #3399ff;
+      text-shadow: 0 0 6px #3399ff;
+    }
+    nav ul li a.active::after,
+    nav ul li a:hover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: #3399ff;
+      border-radius: 2px;
+      box-shadow: 0 0 8px #3399ff;
+    }
+
+    main {
+      margin-top: 80px;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 6rem;
+      overflow: hidden;
+      color: #eef6ff;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 85%);
+    }
+    /* layered shapes */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -15%;
+      width: 350px;
+      height: 350px;
+      background: rgba(51,153,255,0.15);
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: 1;
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      right: -20%;
+      width: 450px;
+      height: 450px;
+      background: rgba(20,61,113,0.2);
+      clip-path: polygon(30% 0, 100% 15%, 100% 100%, 0 100%);
+      filter: blur(50px);
+      z-index: 1;
+      animation: float2 12s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0);}
+      50% { transform: translateY(25px);}
+    }
+    @keyframes float2 {
+      0%,100% { transform: translateY(0);}
+      50% { transform: translateY(-20px);}
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+      transform: translate3d(0, 40px, 0);
+      animation-delay: 0.25s;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.3px;
+      text-shadow: 0 2px 6px rgba(0,76,255,0.75);
+    }
+    .hero-content p {
+      font-weight: 300;
+      font-size: 1.3rem;
+      margin-bottom: 2.8rem;
+      color: #d3e0ff;
+      max-width: 500px;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 4px rgba(20, 90, 180, 0.6);
+    }
+    .hero-content button {
+      background-color: #3399ff;
+      color: #fff;
+      border: none;
+      padding: 0.9rem 3rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 35px;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgb(51 153 255 / 0.6);
+      transition: 0.3s ease;
+      letter-spacing: 0.1em;
+    }
+    .hero-content button:hover {
+      background-color: #1a66e0;
+      box-shadow: 0 10px 30px rgb(26 102 224 / 0.8);
+    }
+
+    /* Sections with big headings and left aligned content */
+    section {
+      max-width: 1100px;
+      margin: 4rem auto 6rem auto;
+      padding: 0 4rem;
+      position: relative;
+      z-index: 1;
+      color: #ddd;
+    }
+    section h2 {
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 1.2rem;
+      color: #a0c8ff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      user-select:none;
+      text-shadow: 0 0 15px #3a64e8;
+    }
+    section p {
+      font-weight: 300;
+      font-size: 1.2rem;
+      max-width: 760px;
+      line-height: 1.75;
+      letter-spacing: 0.03em;
+      user-select:none;
+      text-shadow: 0 0 6px #000c29;
+    }
+    /* We add subtle geometric shapes behind */
+    section#about::before {
+      content: '';
+      position: absolute;
+      top: -90px;
+      right: -120px;
+      width: 250px;
+      height: 250px;
+      background: #073a9c;
+      border-radius: 50%;
+      filter: blur(50px);
+      z-index: -1;
+      opacity: 0.5;
+      transform: translateZ(0);
+      box-shadow: 0 0 40px #055dff;
+    }
+    section#impact::before {
+      content: '';
+      position: absolute;
+      bottom: -170px;
+      left: -90px;
+      width: 280px;
+      height: 280px;
+      background: #003b97;
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+      filter: blur(40px);
+      z-index: -1;
+      opacity: 0.45;
+      box-shadow: 0 0 40px #0a5eff;
+    }
+
+    /* Product section */
+    #product {
+      background: linear-gradient(135deg, #00091a 0%, #002e66 100%);
+      border-radius: 16px;
+      padding: 3rem 4rem;
+      box-shadow: 0 35px 80px rgb(0 93 255 / 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+      max-width: 1100px;
+      margin-bottom: 6rem;
+      user-select:none;
+      flex-wrap: wrap;
+      color: #a0c0ff;
+      text-shadow: 0 0 6px #003b97;
+    }
+    #product .text-content {
+      flex: 1 1 450px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #product h3 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: #3399ff;
+      letter-spacing: 0.1em;
+      user-select:none;
+      text-shadow: 0 0 20px #3399ff;
+    }
+    #product p {
+      font-weight: 400;
+      line-height: 1.6;
+      font-size: 1.15rem;
+      margin-bottom: 1.8rem;
+      user-select:none;
+      color: #c9d6ff;
+      text-shadow: 0 0 5px #0560ff;
+    }
+    #product img {
+      max-width: 320px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgb(51 153 255 / 0.8);
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 5px #3399ff);
+      background: #000d26;
+      padding: 0.3rem;
+    }
+    #product button {
+      width: fit-content;
+      background: #3399ff;
+      color: white;
+      border: none;
+      padding: 1rem 2.8rem;
+      font-weight: 700;
+      font-size: 1.15rem;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 12px 36px rgb(51 153 255 / 0.8);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      align-self: flex-start;
+      letter-spacing: 0.1em;
+    }
+    #product button:hover {
+      background: #1a57cc;
+      box-shadow: 0 15px 50px rgb(26 96 204 / 1);
+    }
+
+    /* Timeline slider section */
+    #timeline {
+      background: #10182f;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgb(20 50 90 / 0.8);
+      padding: 3rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto 6rem auto;
+      color: #b0c8ff;
+      user-select:none;
+      text-shadow: 0 0 6px #274a95;
+    }
+    #timeline h2 {
+      color: #7aa3ff;
+      text-shadow: 0 0 8px #3f60bb;
+      margin-bottom: 2rem;
+    }
+    .slider-options {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #3f60bb transparent;
+      user-select:none;
+      margin-bottom: 2rem;
+      padding-bottom: 0.3rem;
+    }
+    .slider-options::-webkit-scrollbar {
+      height: 7px;
+    }
+    .slider-options::-webkit-scrollbar-thumb {
+      background: #3f60bb;
+      border-radius: 10px;
+    }
+    button.slider-option {
+      cursor: pointer;
+      padding: 0.7rem 1.5rem;
+      border-radius: 30px;
+      background-color: #223466;
+      color: #a0b2ff;
+      font-weight: 600;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      transition: background-color 0.25s ease, color 0.3s ease;
+      flex-shrink: 0;
+      user-select:none;
+      border: none;
+      box-shadow: 0 0 8px transparent;
+      outline-offset: 2px;
+    }
+    button.slider-option.selected,
+    button.slider-option:hover,
+    button.slider-option:focus {
+      background-color: #4471ff;
+      color: #e6ecff;
+      box-shadow: 0 0 20px #4471ff;
+      outline: none;
+    }
+
+    .slider-description {
+      background-color: #23305a;
+      padding: 1.8rem 2rem;
+      border-radius: 20px;
+      font-weight: 300;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: #c3d2ff;
+      min-height: 120px;
+      user-select:none;
+      text-shadow: 0 0 5px #1b2e5c;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Footer */
+    footer {
+      font-weight: 300;
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: #070a12;
+      font-size: 0.95rem;
+      color: #65738c;
+      letter-spacing: 0.05em;
+      user-select:none;
+      border-top: 1px solid #003366;
+      text-shadow: 0 0 6px #000a25;
+    }
+
+    /* Responsive for mobile */
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem 2rem;
+      }
+      nav ul {
+        gap: 2rem;
+      }
+      .hero {
+        justify-content: center;
+        padding: 3rem 2rem 6rem 2rem;
+        clip-path: none;
+        min-height: 90vh;
+      }
+      .hero::before,
+      .hero::after {
+        display: none;
+      }
+      .hero-content {
+        text-align: center;
+        max-width: 100%;
+      }
+      .hero-content h1 {
+        font-size: 2.8rem;
+      }
+      .hero-content p {
+        font-size: 1.1rem;
+        margin-bottom: 2.2rem;
+      }
+      main section {
+        padding: 0 2rem;
+        margin: 3rem auto 5rem auto;
+      }
+      
+      #product {
+        flex-direction: column;
+        padding: 2.2rem 2rem;
+        box-shadow: none;
+        margin-bottom: 3rem;
+      }
+      #product img {
+        max-width: 260px;
+        margin-bottom: 2rem;
+        background: #000a2d;
+      }
+      #product button {
+        width: 100%;
+        padding: 1rem 0;
+      }
+      nav ul {
+        font-size: 0.9rem;
+        gap: 1.2rem;
+      }
+
+      /* slider */
+      .slider-options {
+        gap: 1.2rem;
+        padding-bottom: 0.8rem;
+      }
+      button.slider-option {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+    }
+    @media (max-width: 400px) {
+      .hero-content h1 {
+        font-size: 2.4rem;
+      }
+      .hero-content p {
+        font-size: 1rem;
+      }
+      .slider-description {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header role="banner" aria-label="Primary Navigation">
+    <div class="logo" aria-label="Stop Vaping Schools Logo">Stop Vaping Schools</div>
+    <nav role="navigation" aria-label="Main navigation">
+      <ul>
+        <li><a href="#about" class="active" aria-current="page">About</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#timeline">Timeline</a></li>
+        <li><a href="#product">Product</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main role="main">
+    <section class="hero" id="home" aria-labelledby="hero-title hero-desc">
+      <div class="hero-content">
+        <h1 id="hero-title">Protect Our Students from Vaping</h1>
+        <p id="hero-desc">Educating schools and communities about the dangers of vaping and mental health impact on youth.</p>
+        <button aria-label="Learn more about vaping" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Learn More</button>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="about-title" tabindex="-1">
+      <h2 id="about-title">What is Vaping and Why It’s Harmful</h2>
+      <p>
+        Vaping is the act of inhaling vapor produced by electronic cigarettes or similar devices. Many students are unaware that vaping delivers harmful chemicals and nicotine, which can harm lung health and cause addiction.  
+        Besides physical harms, vaping disrupts brain development that continues until young adulthood.
+      </p>
+    </section>
+
+    <section id="impact" aria-labelledby="impact-title" tabindex="-1">
+      <h2 id="impact-title">Impact on Mental and Physical Health</h2>
+      <p>
+        Studies show adolescents who vape have elevated risks of anxiety, depression, and issues with attention and memory. Nicotine addiction can exacerbate stress and interfere with learning at school. Social isolation may rise as peer pressure to vape increases. Our mission is to empower students with knowledge and support to stay healthy and vape-free.
+      </p>
+    </section>
+
+    <section id="timeline" aria-labelledby="timeline-title" tabindex="-1">
+      <h2 id="timeline-title">Impact Over Time</h2>
+      <div class="slider-options" role="radiogroup" aria-label="Select duration since vaping started">
+        <button class="slider-option selected" role="radio" aria-checked="true" tabindex="0" data-key="firstTime">First Time</button>
+        <button class="slider-option" role="radio" aria-checked="false" tabindex="-1" data-key="oneMonth">1 Month</button>
+        <button class="slider-option" role="radio" aria-checked="false" tabindex="-1" data-key="sixMonths">6 Months</button>
+        <button class="slider-option" role="radio" aria-checked="false" tabindex="-1" data-key="oneYear">1 Year</button>
+      </div>
+      <div class="slider-description" id="slider-description" tabindex="0" aria-live="polite" aria-atomic="true">
+        <strong>First time vaping impact:</strong> Nicotine triggers dizziness, coughing, and throat irritation. The brain experiences a hit of nicotine increasing dopamine, starting addiction pathways.
+      </div>
+    </section>
+
+    <section id="product" aria-labelledby="product-title" tabindex="-1">
+      <div class="text-content">
+        <h3 id="product-title">SmokeSense: Vape Detection for Schools</h3>
+        <p>
+          SmokeSense is an innovative device designed specifically to detect smoke or vaping inside school bathroom stalls.
+          Once it detects smoke, it automatically takes a photo and sends it securely to the principal, helping enforce a vape-free zone to keep students safe.
+        </p>
+        <button onclick="simulateDetection()" aria-label="Simulate smoke detection and alert principal">Simulate Smoke Detection</button>
+      </div>
+      <img src="https://images.unsplash.com/photo-1581093588401-c7c49de7c0cf?auto=format&fit=crop&w=400&q=80" alt="SmokeSense vape smoke detection device" />
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    © 2024 Stop Vaping Schools. All rights reserved.
+  </footer>
+
+  <script>
+    // Navigation smooth scroll & active link highlight
+    const navLinks = document.querySelectorAll('nav ul li a');
+    const sections = [...navLinks].map(link => document.querySelector(link.getAttribute('href')));
+
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + 120;
+      let current = null;
+      sections.forEach(section => {
+        if (section.offsetTop <= scrollPos) {
+          current = section.id;
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Smoke Detection Simulation
+    function simulateDetection() {
+      alert('🔴 Smoke detected! A photo has been taken and securely sent to the principal.\nTogether we can make schools vape-free!');
+    }
+
+    // Timeline slider data
+    const impactData = {
+      firstTime: 'Nicotine triggers dizziness, coughing, and throat irritation. The brain experiences a hit of nicotine increasing dopamine, starting addiction pathways.',
+      oneMonth: 'After 1 month, users may develop cravings, mood disruptions, and early withdrawal symptoms, impacting concentration and sleep.',
+      sixMonths: 'At 6 months, lung function begins to decline, and attention issues increase. Anxiety and depression symptoms become more frequent among regular users.',
+      oneYear: 'After 1 year, nicotine addiction is well-established, leading to sustained mental health challenges, reduced academic performance, and increased risk of respiratory illnesses.'
+    };
+
+    // Slider functionality
+    const sliderOptions = document.querySelectorAll('button.slider-option');
+    const descriptionDiv = document.getElementById('slider-description');
+
+    sliderOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        selectOption(option);
+      });
+      option.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectOption(option);
+        }
+        // Left / Right arrow navigation for accessibility
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          const next = option.nextElementSibling || sliderOptions[0];
+          next.focus();
+        }
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const prev = option.previousElementSibling || sliderOptions[sliderOptions.length-1];
+          prev.focus();
+        }
+      });
+    });
+
+    function selectOption(selectedOption) {
+      sliderOptions.forEach(o => {
+        o.classList.remove('selected');
+        o.setAttribute('aria-checked', 'false');
+        o.setAttribute('tabindex', '-1');
+      });
+      selectedOption.classList.add('selected');
+      selectedOption.setAttribute('aria-checked', 'true');
+      selectedOption.setAttribute('tabindex', '0');
+      selectedOption.focus();
+
+      const key = selectedOption.getAttribute('data-key');
+      const impactText = impactData[key];
+      descriptionDiv.innerHTML = `<strong>${selectedOption.textContent} vaping impact:</strong> ${impactText}`;
+    }
+
+    // Keyboard navigation accessibility: focus sections on navigation
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.focus();
+          target.scrollIntoView({behavior: 'smooth'});
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+</content>
+</create_file>
+
