@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Chat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .chat-container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    .chat-box {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      padding: 12px 18px;
+      border-radius: 20px;
+      max-width: 75%;
+      word-wrap: break-word;
+    }
+
+    .bot {
+      background-color: #f1f1f1;
+      align-self: flex-start;
+      color: #333;
+    }
+
+    .user {
+      background-color: #007bff;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .buttons, form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      padding-top: 20px;
+    }
+
+    .buttons button, form button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .buttons button:hover, form button:hover {
+      background-color: #218838;
+    }
+
+    input[type="number"],
+    input[type="email"] {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <h2 style="text-align: center;">Order Chat</h2>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="buttons" id="buttonArea"></div>
+    <form id="emailForm" style="display: none;">
+      <input type="email" id="emailInput" placeholder="Your email" required />
+      <button type="submit">Send Email</button>
+    </form>
+  </div>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init('iiXkLYKQhp2cgLISS'); // Replace with your EmailJS public key
+
+    const chatBox = document.getElementById('chatBox');
+    const buttonArea = document.getElementById('buttonArea');
+    const emailForm = document.getElementById('emailForm');
+    const emailInput = document.getElementById('emailInput');
+    let orderQuantity = 1;
+
+    function addMessage(sender, text) {
+      const div = document.createElement("div");
+      div.className = `message ${sender}`;
+      div.textContent = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function clearButtons() {
+      buttonArea.innerHTML = '';
+    }
+
+    function startChat() {
+      addMessage("bot", "Hi! What would you like to do?");
+      const btn = document.createElement("button");
+      btn.textContent = "I want to order this product";
+      btn.onclick = () => {
+        addMessage("user", "I want to order this product");
+        askQuantity();
+      };
+      buttonArea.appendChild(btn);
+    }
+
+    function askQuantity() {
+      clearButtons();
+      addMessage("bot", "Please enter the quantity you'd like to order:");
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.onclick = () => {
+          addMessage("user", i.toString());
+          orderQuantity = i;
+          askEmail();
+        };
+        buttonArea.appendChild(btn);
+      }
+
+      const otherBtn = document.createElement("button");
+      otherBtn.textContent = "Other";
+      otherBtn.onclick = () => {
+        clearButtons();
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "1";
+        input.placeholder = "Enter quantity";
+
+        const submitBtn = document.createElement("button");
+        submitBtn.textContent = "Submit";
+        submitBtn.onclick = () => {
+          const val = parseInt(input.value);
+          if (val > 0) {
+            addMessage("user", val.toString());
+            orderQuantity = val;
+            askEmail();
+          } else {
+            alert("Please enter a valid quantity.");
+          }
+        };
+
+        buttonArea.appendChild(input);
+        buttonArea.appendChild(submitBtn);
+      };
+      buttonArea.appendChild(otherBtn);
+    }
+
+    function askEmail() {
+      clearButtons();
+      addMessage("bot", "Please enter your email to receive the bill:");
+      emailForm.style.display = 'flex';
+    }
+
+    emailForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = emailInput.value;
+      addMessage("user", email);
+      addMessage("bot", "Thanks! Sending the bill...");
+      emailForm.style.display = 'none';
+
+      const pricePerUnit = 20;
+      const shipping = 5;
+      const tax = pricePerUnit * orderQuantity * 0.08;
+
+      const templateParams = {
+        email: email,
+        order_id: Math.floor(Math.random() * 100000),
+        name: 'Sample Item',
+        units: orderQuantity,
+        price: pricePerUnit * orderQuantity,
+        'cost.shipping': shipping,
+        'cost.tax': tax.toFixed(2),
+      };
+
+      emailjs.send('service_nz3467n', 'template_903bvmo', templateParams)
+        .then(() => {
+          addMessage("bot", "✅ Email sent successfully!");
+          askPayment();
+        })
+        .catch((error) => {
+          addMessage("bot", `❌ Failed to send email: ${error.text}`);
+        });
+    });
+
+    function askPayment() {
+      clearButtons();
+      addMessage("bot", "How would you like to pay?");
+      const cashBtn = document.createElement("button");
+      cashBtn.textContent = "💵 Cash";
+      cashBtn.onclick = () => {
+        addMessage("user", "Cash");
+        addMessage("bot", "✅ Great! Your order is confirmed. Thank you!");
+        clearButtons();
+      };
+      buttonArea.appendChild(cashBtn);
+    }
+
+    // Start chat on load
+    startChat();
+  </script>
+</body>
+</html>
