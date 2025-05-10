@@ -5,47 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Order Chat</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: #f8f9fa;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at center, #0a0f1c, #05060a);
+      color: #d0d4ff;
     }
 
     .chat-container {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      padding: 20px;
+      max-width: 800px;
+      margin: 60px auto;
+      background: rgba(20, 25, 50, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 0 30px #1e1f4b, 0 0 60px #1c74ff3a;
+      padding: 30px;
+      backdrop-filter: blur(6px);
+    }
+
+    h2 {
+      text-align: center;
+      color: #9bbcff;
+      text-shadow: 0 0 10px #5b80ff;
     }
 
     .chat-box {
-      max-height: 70vh;
+      max-height: 60vh;
       overflow-y: auto;
-      padding: 10px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .message {
       padding: 12px 18px;
-      border-radius: 20px;
+      border-radius: 16px;
       max-width: 75%;
       word-wrap: break-word;
+      font-size: 1rem;
     }
 
     .bot {
-      background-color: #f1f1f1;
+      background-color: #1a1f33;
       align-self: flex-start;
-      color: #333;
+      color: #9dbfff;
     }
 
     .user {
-      background-color: #007bff;
+      background: linear-gradient(145deg, #1d48ff, #3456ff);
       color: white;
       align-self: flex-end;
+      box-shadow: 0 0 8px #4978ff;
     }
 
     .buttons, form {
@@ -58,16 +70,19 @@
 
     .buttons button, form button {
       padding: 10px 20px;
-      background-color: #28a745;
+      background: #1d48ff;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 1rem;
       cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px #325cff88;
     }
 
     .buttons button:hover, form button:hover {
-      background-color: #218838;
+      background-color: #3a5dff;
+      transform: scale(1.05);
     }
 
     input[type="number"],
@@ -75,13 +90,26 @@
       padding: 10px;
       font-size: 1rem;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      border: none;
+      background-color: #11172a;
+      color: #d0d4ff;
+      box-shadow: inset 0 0 10px #1a1f33;
+    }
+
+    input::placeholder {
+      color: #6672a0;
+    }
+
+    #emailForm {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
   </style>
 </head>
 <body>
   <div class="chat-container">
-    <h2 style="text-align: center;">Order Chat</h2>
+    <h2>Order Chat</h2>
     <div class="chat-box" id="chatBox"></div>
     <div class="buttons" id="buttonArea"></div>
     <form id="emailForm" style="display: none;">
@@ -179,18 +207,22 @@
       addMessage("bot", "Thanks! Sending the bill...");
       emailForm.style.display = 'none';
 
-      const pricePerUnit = 20;
-      const shipping = 5;
-      const tax = pricePerUnit * orderQuantity * 0.08;
+      const productName = 'senso-smoke';
+      const pricePerUnit = 2499;
+      const shipping = 20;
+      const price = pricePerUnit * orderQuantity;
+      const tax = price * 0.08;
+      const total = price + tax + shipping;
 
       const templateParams = {
         email: email,
         order_id: Math.floor(Math.random() * 100000),
-        name: 'Sample Item',
+        name: productName,
         units: orderQuantity,
-        price: pricePerUnit * orderQuantity,
-        'cost.shipping': shipping,
-        'cost.tax': tax.toFixed(2),
+        price: price.toFixed(2),
+        cost_shipping: shipping.toFixed(2),
+        cost_tax: tax.toFixed(2),
+        cost_total: total.toFixed(2),
       };
 
       emailjs.send('service_nz3467n', 'template_903bvmo', templateParams)
@@ -207,9 +239,9 @@
       clearButtons();
       addMessage("bot", "How would you like to pay?");
       const cashBtn = document.createElement("button");
-      cashBtn.textContent = "💵 Cash";
+      cashBtn.textContent = "💵 Cash on Delivery";
       cashBtn.onclick = () => {
-        addMessage("user", "Cash");
+        addMessage("user", "Cash on Delivery");
         addMessage("bot", "✅ Great! Your order is confirmed. Thank you!");
         clearButtons();
       };
